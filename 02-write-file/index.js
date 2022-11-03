@@ -3,7 +3,7 @@ const path = require('path');
 const readline = require('readline');
 
 const writeStream = fs.createWriteStream(path.join(__dirname, 'notes.txt'));
-writeStream.on('error', error => console.log(`There occured an error: ${error.message}`)); 
+writeStream.on('error', error => console.log(`There occurred an error: ${error.message}`)); 
 
 const rlInterface = readline.createInterface({
   input: process.stdin,
