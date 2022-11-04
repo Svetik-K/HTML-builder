@@ -10,9 +10,9 @@ fs.mkdir(pathTo, { recursive: true }, error => {
     console.log(`There occurred an error: ${error.message}`);
   }
 });
-copyFilesFromDirectory(); 
+copyFilesFromDirectory(pathFrom, pathTo); 
 
-async function copyFilesFromDirectory() {
+async function copyFilesFromDirectory(pathFrom, pathTo) {
   const files = await fs.readdir(pathFrom, { withFileTypes: true }, error => {
     if(error) {
       console.log(`There occurred an error: ${error.message}`); 
@@ -30,3 +30,5 @@ async function copyFilesFromDirectory() {
     console.log(`All the files have been successfully copied to the 'file-copy' directory.`);
   }, 100);
 }
+
+module.exports = {copyFilesFromDirectory};

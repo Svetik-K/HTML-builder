@@ -2,11 +2,13 @@ const fs = require('fs');
 const path = require('path');
 const fsPromises = require('fs').promises;
 
-readAllStyles();
+const pathToBundle = path.resolve(__dirname, 'project-dist', 'bundle.css');
+const pathStyles = path.resolve(__dirname, 'styles');
+readAllStyles(pathToBundle, pathStyles);
 
-async function readAllStyles() {
-  const writeStream = fs.createWriteStream(path.resolve(__dirname, 'project-dist', 'bundle.css'));
-  const files = await fsPromises.readdir(path.resolve(__dirname, 'styles'), {withFileTypes: true}, error => {
+async function readAllStyles(pathToBundle, pathStyles) {
+  const writeStream = fs.createWriteStream(pathToBundle);
+  const files = await fsPromises.readdir(pathStyles, {withFileTypes: true}, error => {
     if(error) {
       console.log(`There occurred an arror: ${error.message}`);
     }
@@ -14,10 +16,12 @@ async function readAllStyles() {
 
   for(let file of files) {
     if(file.isFile() && path.extname(file.name) == '.css') {
-      const readStream = fs.createReadStream(path.resolve(__dirname, 'styles', file.name));
+      const readStream = fs.createReadStream(path.resolve(pathStyles, file.name));
       let data = '';
       readStream.on('data', chunk => data += chunk);
       readStream.pipe(writeStream);
     }
   }
 }
+
+module.exports = {readAllStyles};
