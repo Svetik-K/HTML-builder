@@ -1,6 +1,8 @@
 const fs = require('fs/promises');
 const path = require('path');
 
+getFilesInfo();
+
 async function getFilesInfo() {
   const files = await fs.readdir(path.resolve(__dirname, 'secret-folder'), { withFileTypes: true }, error => {
     if(error) {
@@ -21,7 +23,3 @@ async function getFilesInfo() {
     }
   };
 }
-
-getFilesInfo();
-
-     

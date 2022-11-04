@@ -22,7 +22,7 @@ rlInterface.on('line', line => {
   }
 }).on('close', () => {
   writeStream.end();
-  writeStream.on('finish', () => console.log(`You kan find all your notes in file notes.txt. See you!`));
+  writeStream.on('finish', () => console.log(`You kan find all your notes in file 'notes.txt'. See you!`));
   setTimeout(() => {
     process.exit();
   }, 100);
