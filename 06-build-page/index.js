@@ -10,5 +10,11 @@ fs.mkdir(path.resolve(__dirname, 'project-dist'), { recursive: true }, error => 
   }
 });
 
+
+
+
+
+
+
 copyFilesFromDirectory(path.resolve(__dirname, 'assets'), path.resolve(__dirname, 'project-dist', 'assets'));
 readAllStyles(path.resolve(__dirname, 'project-dist', 'style.css'), path.resolve(__dirname, 'styles'));
