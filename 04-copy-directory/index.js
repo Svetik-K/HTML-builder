@@ -20,7 +20,7 @@ async function copyFilesFromDirectory(pathFrom, pathTo) {
   });
   if(existFiles.length) {
     for(let file of existFiles) {
-      fs.unlink(path.resolve(pathTo, file.name), error => {
+      fs.unlink(path.join(pathTo, file.name), error => {
         if(error) {
           console.log(`There occurred an error: ${error.message}`);
         } 
@@ -42,7 +42,7 @@ async function copyFilesFromDirectory(pathFrom, pathTo) {
       });
     }
     else if(file.isDirectory()) {
-      copyFilesFromDirectory(path.resolve(pathFrom, file.name), path.resolve(pathTo, file.name));
+      copyFilesFromDirectory(path.join(pathFrom, file.name), path.join(pathTo, file.name));
     }  
   }
   setTimeout(() => {
