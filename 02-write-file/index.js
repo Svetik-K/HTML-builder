@@ -13,7 +13,7 @@ const rlInterface = readline.createInterface({
 
 rlInterface.prompt();
 rlInterface.on('line', line => {
-  if(line === 'exit') {
+  if(line.trim() === 'exit') {
     rlInterface.close();
   }else {
     const note = line + '\n';
