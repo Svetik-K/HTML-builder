@@ -20,15 +20,14 @@ rlInterface.on('line', line => {
     writeStream.write(note);
     rlInterface.prompt();
   }
-}).on('close', () => {
-  writeStream.end();
-  writeStream.on('finish', () => console.log(`You kan find all your notes in file 'notes.txt'. See you!`));
-  setTimeout(() => {
-    process.exit();
-  }, 100);
 });
 rlInterface.on('SIGINT', () => {
   rlInterface.close();
+});
+rlInterface.on('close', () => {
+  writeStream.end();
+  process.on('exit', () => console.log(`You kan find all your notes in file 'notes.txt'. See you!`));
+  process.exit();
 });
 
 
