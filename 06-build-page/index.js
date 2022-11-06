@@ -8,6 +8,7 @@ fs.mkdir(path.join(__dirname, 'project-dist'), { recursive: true }, error => {
     console.log(`There occurred an error: ${error.message}`);
   }
 });
+removeAllFiles(path.join(__dirname, 'project-dist'));
 
 fs.readFile(path.join(__dirname, 'template.html'), (error, templateData) => {
   if(error) {
@@ -48,12 +49,12 @@ async function useTemplates(template) {
 }
 
 async function copyFilesFromDirectory(pathFrom, pathTo) {
-  removeAllFiles(pathTo);
   await fsPromises.mkdir(pathTo, { recursive: true }, error => {
     if(error) {
       console.log(`There occurred an error: ${error.message}`);
     }
   });
+  removeAllFiles(pathTo);
 
   const files = await fsPromises.readdir(pathFrom, { withFileTypes: true }, error => {
     if(error) {
