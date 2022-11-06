@@ -48,25 +48,12 @@ async function useTemplates(template) {
 }
 
 async function copyFilesFromDirectory(pathFrom, pathTo) {
+  removeAllFiles(pathTo);
   await fsPromises.mkdir(pathTo, { recursive: true }, error => {
     if(error) {
       console.log(`There occurred an error: ${error.message}`);
     }
   });
-  const existFiles = await fsPromises.readdir(pathTo, { withFileTypes: true }, error => {
-    if(error) {
-      console.log(`There occurred an error: ${error.message}`);
-    }
-  });
-  if(existFiles.length) {
-    for(let file of existFiles) {
-      fs.unlink(path.join(pathTo, file.name), error => {
-        if(error) {
-          console.log(`There occurred an error: ${error.message}`);
-        } 
-      });
-    }
-  }
 
   const files = await fsPromises.readdir(pathFrom, { withFileTypes: true }, error => {
     if(error) {
@@ -85,7 +72,6 @@ async function copyFilesFromDirectory(pathFrom, pathTo) {
       copyFilesFromDirectory(path.join(pathFrom, file.name), path.join(pathTo, file.name));
     }  
   }
-  console.log(`All the files have been successfully copied.`);
 }
 
 async function readAllStyles(pathToBundle, pathStyles) {
@@ -104,5 +90,26 @@ async function readAllStyles(pathToBundle, pathStyles) {
       readStream.pipe(writeStream);
     }
   }
-  console.log(`The file with all the styles has been successfully created!`);
+}
+
+async function removeAllFiles(pathTo) {
+  const existFiles = await fsPromises.readdir(pathTo, { withFileTypes: true }, error => {
+    if(error) {
+      console.log(`There occurred an error: ${error.message}`);
+    }
+  });
+  if(existFiles.length) {
+    for(let file of existFiles) {
+      if(file.isFile()) {
+        fs.unlink(path.join(pathTo, file.name), error => {
+          if(error) {
+            console.log(`There occurred an error: ${error.message}`);
+          } 
+        });
+      }
+      if(file.isDirectory()) {
+        removeAllFiles(path.join(pathTo, file.name));
+      }  
+    }
+  }
 }
