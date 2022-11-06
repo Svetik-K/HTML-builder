@@ -1,5 +1,6 @@
 const { copyFile } = require('fs');
-const fs = require('fs/promises');
+const fs = require('fs');
+const fsPromises = require('fs').promises;
 const path = require('path');
 
 const pathFrom = path.join(__dirname, 'files');
@@ -8,12 +9,12 @@ const pathTo = path.join(__dirname, 'files-copy');
 copyFilesFromDirectory(pathFrom, pathTo); 
 
 async function copyFilesFromDirectory(pathFrom, pathTo) {
-  await fs.mkdir(pathTo, { recursive: true }, error => {
+  await fsPromises.mkdir(pathTo, { recursive: true }, error => {
     if(error) {
       console.log(`There occurred an error: ${error.message}`);
     }
   });
-  const existFiles = await fs.readdir(pathTo, { withFileTypes: true }, error => {
+  const existFiles = await fsPromises.readdir(pathTo, { withFileTypes: true }, error => {
     if(error) {
       console.log(`There occurred an error: ${error.message}`);
     }
@@ -28,7 +29,7 @@ async function copyFilesFromDirectory(pathFrom, pathTo) {
     }
   }
 
-  const files = await fs.readdir(pathFrom, { withFileTypes: true }, error => {
+  const files = await fsPromises.readdir(pathFrom, { withFileTypes: true }, error => {
     if(error) {
       console.log(`There occurred an error: ${error.message}`); 
     }
@@ -45,9 +46,5 @@ async function copyFilesFromDirectory(pathFrom, pathTo) {
       copyFilesFromDirectory(path.join(pathFrom, file.name), path.join(pathTo, file.name));
     }  
   }
-  setTimeout(() => {
-    console.log(`All the files have been successfully copied.`);
-  }, 100);
+  console.log(`All the files have been successfully copied.`);
 }
-
-module.exports = {copyFilesFromDirectory};

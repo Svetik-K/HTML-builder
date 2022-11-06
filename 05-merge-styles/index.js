@@ -22,9 +22,5 @@ async function readAllStyles(pathToBundle, pathStyles) {
       readStream.pipe(writeStream);
     }
   }
-  setTimeout(() => {
-    console.log(`The file with all the styles has been successfully created!`);
-  }, 100);
+  console.log(`The file with all the styles has been successfully created!`);
 }
-
-module.exports = {readAllStyles};
